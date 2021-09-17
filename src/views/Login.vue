@@ -35,6 +35,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'Login',
+  components: {}
+}
+</script>
+
 <style lang="scss" scoped>
 .container-fluid {
   padding: 100px 0;
@@ -53,7 +60,7 @@ h1 {
   line-height: 26px;
   text-align: center;
   letter-spacing: -0.165px;
-  color: #C0A6FF;
+  color: #c0a6ff;
   margin-bottom: 20%;
   margin-top: 50px;
 }
@@ -98,7 +105,7 @@ button {
   color: #ffffff;
   width: 100%;
   height: 60px;
-  background: #C0A6FF;
+  background: #c0a6ff;
   border-radius: 70px;
 }
 button:hover {
