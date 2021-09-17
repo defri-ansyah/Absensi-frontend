@@ -11,15 +11,17 @@
 export default {}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 footer {
-  height: 60px;
+  height: 80px;
   width: 100%;
+  background: #c0a6ff;
 }
 img {
   width: 80px;
 }
 .wrap {
-  margin: 20px 40px 0px;
+  // margin-top: 30px;
+  padding: 20px 40px 0px;
 }
 </style>
