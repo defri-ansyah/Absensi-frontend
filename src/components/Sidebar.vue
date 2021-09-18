@@ -2,12 +2,16 @@
   <aside class="d-flex flex-column">
     <div>
       <router-link to="/home" class="d-flex m-5">
-        <img src="../assets/grid.svg" alt="grid" />
-        <p>Dashboard</p>
+        <img src="../assets/grid.svg" alt="home" />
+        <p>Homepage</p>
       </router-link>
       <router-link to="/profile" class="d-flex m-5">
         <img src="../assets/user.svg" alt="profile" />
         <p>Profile</p>
+      </router-link>
+      <router-link to="/attendance" class="d-flex m-5">
+        <img src="../assets/plus.svg" alt="attendence" />
+        <p>Attendance</p>
       </router-link>
     </div>
     <router-link to="/" class="d-flex m-5">
