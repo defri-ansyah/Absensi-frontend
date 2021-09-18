@@ -2,14 +2,14 @@
   <div class="container-fluid">
     <section class="d-flex">
       <Sidebar />
-      <main class="d-flex justify-content-between">
-        <span>Nama lengkap: {{userInfo.fullname}}</span>
-        <span>Divisi: {{userInfo.divisi}}</span>
-        <span>History: </span>
+      <main class="d-flex">
+        <span class="mb-4">Nama lengkap: {{userInfo.fullname}}</span>
+        <span class="mb-4">Divisi: {{userInfo.divisi}}</span>
+        <span class="mb-2">History: </span>
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Status</th>
+              <th scope="col" class="title-status">Status</th>
               <th scope="col">Tgl</th>
             </tr>
           </thead>
@@ -87,5 +87,20 @@ main {
 }
 section {
   margin-bottom: 30px;
+}
+thead {
+  background: #c0a6ff;
+}
+table {
+  width: 85%;
+  align-content: center;
+  margin-left: 80px;
+}
+.title-status {
+  width: 50%;
+}
+span {
+  font-style: bold;
+  font-size: 20px;
 }
 </style>

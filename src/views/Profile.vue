@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section class="d-flex">
       <Sidebar />
-      <main class="d-flex justify-content-between">
+      <main class="d-flex">
         <form @submit.prevent="editProfile">
           <div class="form-group">
             <label>Full Name</label>
@@ -20,7 +20,7 @@
               v-model = "divisi"
             />
           </div>
-        <button type="submit" class="align-middle">Edit</button>
+          <button type="submit" class="mt-3">Edit</button>
         </form>
       </main>
     </section>
@@ -119,7 +119,7 @@ button {
   width: 20%;
   height: 50px;
   background: #c0a6ff;
-  border-radius: 70px;
+  border-radius: 20px;
 }
 label {
   padding-bottom: 10px;

@@ -7,18 +7,20 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Nama</th>
               <th scope="col">Divisi</th>
               <th scope="col">Status</th>
+              <th scope="col">#</th>
             </tr>
           </thead>
           <tbody v-for="(item, index) in datalist" :key="index">
             <tr>
-              <button v-on:click="handleDetail(item.id)">test</button>
               <td>{{item.fullname}}</td>
               <td>{{item.divisi}}</td>
               <td>{{item.currentAbsen ? item.currentAbsen.status:''}}</td>
+              <button class="btn" v-on:click="handleDetail(item.id)">
+                <img src="../assets/eye-open.png" alt="">
+              </button>
             </tr>
           </tbody>
         </table>
