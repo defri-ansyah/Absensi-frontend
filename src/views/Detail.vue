@@ -10,7 +10,16 @@
 </template>
 
 <script>
-export default {}
+import Sidebar from '../components/Sidebar.vue'
+import Footer from '../components/Footer.vue'
+
+export default {
+  name: 'Detail',
+  components: {
+    Sidebar,
+    Footer
+  }
+}
 </script>
 
 <style lang="scss" scoped>
