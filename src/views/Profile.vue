@@ -3,12 +3,13 @@
     <section class="d-flex">
       <Sidebar />
       <main class="d-flex justify-content-between">
-        <form>
+        <form @submit.prevent="editProfile">
           <div class="form-group">
             <label>Full Name</label>
             <input
               type="text"
               class="form-control shadow-none"
+              v-model = "fullname"
             />
           </div>
           <div class="form-group">
@@ -16,10 +17,11 @@
             <input
               type="text"
               class="form-control shadow-none"
+              v-model = "divisi"
             />
           </div>
-        </form>
         <button type="submit" class="align-middle">Edit</button>
+        </form>
       </main>
     </section>
     <Footer />
@@ -27,6 +29,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
 import Sidebar from '../components/Sidebar.vue'
 import Footer from '../components/Footer.vue'
 
@@ -35,6 +39,47 @@ export default {
   components: {
     Sidebar,
     Footer
+  },
+  data () {
+    return {
+      userInfo: {},
+      fullname: '',
+      divisi: ''
+    }
+  },
+  created () {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo () {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/user/detail/` + storage.id)
+        .then((res) => {
+          if (res) {
+            this.userInfo = res.data.data
+            this.fullname = res.data.data.fullname
+            this.divisi = res.data.data.divisi
+            console.log(res.data.data)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    editProfile () {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      axios.patch(`${process.env.VUE_APP_SERVICE_API}/user/edit-profile`, { fullname: this.fullname, divisi: this.divisi }, { headers: { Authorization: `Bearer ${storage.token}` } })
+        .then((res) => {
+          if (res) {
+            this.getUserInfo()
+          }
+          Swal.fire('Success', res.data.messages, 'success')
+        })
+        .catch((err) => {
+          console.log(err)
+          Swal.fire('Oops...', err.response.data.messages, 'error')
+        })
+    }
   }
 }
 </script>

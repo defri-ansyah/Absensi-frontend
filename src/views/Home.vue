@@ -13,24 +13,12 @@
               <th scope="col">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-for="(item, index) in datalist" :key="index">
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
+              <button v-on:click="handleDetail(item.id)">test</button>
+              <td>{{item.fullname}}</td>
+              <td>{{item.divisi}}</td>
+              <td>{{item.currentAbsen ? item.currentAbsen.status:''}}</td>
             </tr>
           </tbody>
         </table>
@@ -41,6 +29,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Sidebar from '../components/Sidebar.vue'
 import Footer from '../components/Footer.vue'
 
@@ -49,6 +38,31 @@ export default {
   components: {
     Sidebar,
     Footer
+  },
+  data () {
+    return {
+      datalist: []
+    }
+  },
+  created () {
+    this.getList()
+  },
+  methods: {
+    handleDetail (id) {
+      this.$router.push('/detail/' + id)
+    },
+    getList () {
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/user/homepage`)
+        .then((res) => {
+          if (res) {
+            this.datalist = res.data.data
+            console.log(res.data.data)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>

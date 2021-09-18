@@ -36,9 +36,52 @@
 </template>
 
 <script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Login',
-  components: {}
+  components: {},
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    localData (userInfo) {
+      const parsed = JSON.stringify({
+        id: userInfo.data.id,
+        token: userInfo.token,
+        isLogin: true
+      })
+      localStorage.setItem('user', parsed)
+    },
+    login (e) {
+      const email = this.email
+      const password = this.password
+      e.preventDefault()
+      axios
+        .post(`${process.env.VUE_APP_SERVICE_API}/auth/login`, {
+          email,
+          password
+        }).then((res) => {
+          console.log(res)
+          if (res.status === 200) {
+            const userInfo = res.data
+            this.localData(userInfo)
+            this.email = ''
+            this.password = ''
+            this.$router.push('/home')
+          }
+          Swal.fire('Success', res.data.messages, 'success')
+        })
+        .catch((err) => {
+          console.log(err.response)
+          Swal.fire('Oops...', err.response.data.messages, 'error')
+        })
+    }
+  }
 }
 </script>
 

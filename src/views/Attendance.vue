@@ -10,10 +10,10 @@
         <div class="d-flex wrap">
           <p class="mb-3">Silahkan memilih aksi dibawah ini:</p>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-success">Mulai Kerja</button>
-            <button type="submit" class="btn btn-secondary">Istirahat</button>
-            <button type="submit" class="btn btn-info">Lanjut Kerja</button>
-            <button type="submit" class="btn btn-danger">Selesai Kerja</button>
+            <button type="submit" value="Kerja" class="btn btn-success" v-if="status===null" v-on:click="createAbsensi($event)">Mulai Kerja</button>
+            <button type="submit" value="Istirahat" class="btn btn-secondary" v-if="status==='Kerja'" v-on:click="createAbsensi($event)">Istirahat</button>
+            <button type="submit" value="Kerja" class="btn btn-info" v-if="status==='Istirahat'" v-on:click="createAbsensi($event)">Lanjut Kerja</button>
+            <button type="submit" value="Pulang" class="btn btn-danger" v-if="status==='Kerja' || status==='Istirahat'" v-on:click="createAbsensi($event)">Selesai Kerja</button>
           </div>
         </div>
       </main>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Sidebar from '../components/Sidebar.vue'
 import Footer from '../components/Footer.vue'
 
@@ -31,6 +32,42 @@ export default {
   components: {
     Sidebar,
     Footer
+  },
+  data () {
+    return {
+      status: null
+    }
+  },
+  created () {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo () {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/absensi/detail/`, { headers: { Authorization: `Bearer ${storage.token}` } })
+        .then((res) => {
+          if (res) {
+            this.status = res.data.data.status ?? null
+            console.log(res.data.data)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    createAbsensi (e) {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      const status = e.target.value
+      axios.post(`${process.env.VUE_APP_SERVICE_API}/absensi/`, { status }, { headers: { Authorization: `Bearer ${storage.token}` } })
+        .then((res) => {
+          if (res) {
+            this.getUserInfo()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>

@@ -3,6 +3,23 @@
     <section class="d-flex">
       <Sidebar />
       <main class="d-flex justify-content-between">
+        <span>Nama lengkap: {{userInfo.fullname}}</span>
+        <span>Divisi: {{userInfo.divisi}}</span>
+        <span>History: </span>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Status</th>
+              <th scope="col">Tgl</th>
+            </tr>
+          </thead>
+          <tbody v-for="(item, index) in userInfo.history" :key="index">
+            <tr>
+              <td>{{item.status}}</td>
+              <td>{{format_date(item.createdAt)}}</td>
+            </tr>
+          </tbody>
+        </table>
       </main>
     </section>
     <Footer />
@@ -10,6 +27,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import moment from 'moment'
 import Sidebar from '../components/Sidebar.vue'
 import Footer from '../components/Footer.vue'
 
@@ -18,6 +37,34 @@ export default {
   components: {
     Sidebar,
     Footer
+  },
+  data () {
+    return {
+      userInfo: {}
+    }
+  },
+  created () {
+    console.log(this.$route.params)
+    this.getUserInfo()
+  },
+  methods: {
+    format_date (value) {
+      if (value) { return moment(String(value)).format('DD-MM-YYYY, hh:mm:ss') }
+    },
+    getUserInfo () {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      const id = this.$route.params.id
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/user/detail/` + id, { headers: { Authorization: `Bearer ${storage.token}` } })
+        .then((res) => {
+          if (res) {
+            this.userInfo = res.data.data
+            console.log(res.data.data)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
