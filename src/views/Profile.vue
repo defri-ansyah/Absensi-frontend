@@ -52,7 +52,7 @@ main {
   background: #ffffff;
   margin-left: 30px;
   width: 85%;
-  padding: 30px;
+  padding: 50px;
   height: 83vh;
   overflow: scroll;
   align-items: center;
