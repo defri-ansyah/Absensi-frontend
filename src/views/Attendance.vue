@@ -4,7 +4,7 @@
       <Sidebar />
       <main class="d-flex justify-content-between">
         <div>
-          <h1>Hi, Bambang Prakoso</h1>
+          <h1>Hi, {{userInfo.fullname}}</h1>
           <span>"The only way to do great work is to love what you do"</span>
         </div>
         <div class="d-flex wrap">
@@ -35,11 +35,13 @@ export default {
   },
   data () {
     return {
-      status: null
+      status: null,
+      userInfo: {}
     }
   },
   created () {
     this.getUserInfo()
+    this.getDetail()
   },
   methods: {
     getUserInfo () {
@@ -62,6 +64,19 @@ export default {
         .then((res) => {
           if (res) {
             this.getUserInfo()
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getDetail () {
+      const storage = JSON.parse(localStorage.getItem('user'))
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/user/detail/` + storage.id)
+        .then((res) => {
+          if (res) {
+            this.userInfo = res.data.data
+            console.log(res.data.data)
           }
         })
         .catch((err) => {
